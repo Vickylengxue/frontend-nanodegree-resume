@@ -75,13 +75,13 @@ var projects = {
             "title": "the company website of ClearTV",
             "dates": "2016-11",
             "description": "It is a company website, showing products to the customer overseas. It is built with a CSS format called matirlize.",
-            "images": ["images/project1-companyWebsite.jpg"]
+            "image": ["images/project1-companyWebsite.jpg"]
         },
         {
             "title": "Resume",
             "dates": "2017-01",
             "description": "It is a website resume. Its format is refer to the tamplate at Wix.com. Built with Bootstrap, jQuery. ",
-            "images": ["images/project2-resume.jpg"]
+            "image": ["images/project2-resume.jpg"]
         }
     ]
 }
@@ -94,17 +94,8 @@ $("#main").contents().filter(function(){return this.nodeType === 3;}).remove();
 
 var formattedName = HTMLheaderName.replace('%data%',bio.name);
 var formattedRole = HTMLheaderRole.replace('%data%',bio.role);
-
 var formattedBioPic = HTMLbioPic.replace('%data%',bio.biopic);
 var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%',bio.welcomMessage);
-
-
-
-
-var formattedProjectTitle = HTMLprojectTitle.replace('%data%',projects.projects.title);
-var formattedProjectDates = HTMLprojectDates.replace('%data%',projects.projects.dates);
-var formattedProjectDescription = HTMLprojectDescription.replace('%data%',projects.projects.description);
-var formattedProjectImage = HTMLprojectImage.replace('%data%',projects.projects.images);
 
 var formattedSchoolName = HTMLschoolName.replace('%data%',education.schools.name);
 var formattedSchoolDegree = HTMLschoolDegree.replace('%data%',education.schools.degree);
@@ -143,32 +134,44 @@ bio.display = function() {
     }
 };
 bio.display();
+/**
+ * @description 设置一个循环函数，遍历对象内容并显示
+ * @param id - 定位要添加的位置
+ * @param start - 添加第一个start div
+ * @param obj - 要遍历的对象
+ * @param sunobj - 该对象的子对象
+ * @param HTMLname - 对应的helper.js内的变量名片段
+ * @param location - 对应的需要插入的HTML的class名
+ */
+
+var objloop = function(id, start, obj, sunobj, HTMLname, location) {
+    var location = location + ':last';//选择最后一个div，用于添加html内容
+    for(var i = 0; obj[sunobj][i]; i++) {
+        $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
+        for(var index in obj[sunobj][i]) {
+            var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
+            var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
+            var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][index]);//替换
+            $(location).append(formattedItem);//找到最后一个div，添加替换的内容
+        };
+    };
+};
 
 /**
  * @description Add Work Experience
  */
-work.display = function() {
-    $('#workExperience').append(HTMLworkStart);
-    for(var i=0; work.jobs[i]; i++) {
-        for(var index in work.jobs[i]) {
-            var index2 = index.slice(0,1).toUpperCase() + index.slice(1);
-            var HTMLtitle = eval('HTMLwork'+ index2);
-            var formattedItem = HTMLtitle.replace('%data%',work.jobs[i][index]);
-            $('.work-entry').append(formattedItem);
-        };
-    };
-};
-work.display();
+objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
 
 /**
  * @description Add Projects
  */
-
-
+objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
 
 /**
  * @description Add Education
  */
+
+
 
 /**
  * @description Add mapDiv
