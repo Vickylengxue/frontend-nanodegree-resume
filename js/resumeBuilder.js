@@ -23,17 +23,15 @@ var education = {
             "name": "Fu Yu Highschool",
             "location": "Qiqi Haer",
             "degree": "hightschool",
-            "majors": ["technology and science"],
-            "dates": "2008-6",
-            "url": "none",
+            "major": ["technology and science"],
+            "dates": "2008-6"
         },
         {
             "name": "Shanghai Univercity",
             "location": "Shanghai",
             "degree": "Bachelor's degree",
-            "dates": "2012-6",
-            "url": "http://www.shu.edu.cn/",
-            "majors": ["Matieral Science and Technology"]
+            "major": ["Matieral Science and Technology"],
+            "dates": "2012-6"
         }
     ],
     "onlineCourses": [
@@ -41,7 +39,7 @@ var education = {
             "title": "Udacity Front-End Web Developer Nanodegree",
             "school": "Udacity Online School",
             "dates": "2016-12",
-            "url": "http://cn.udacity.com/"
+            "uRL": "http://cn.udacity.com/"
         }
     ],
 };
@@ -101,7 +99,7 @@ var formattedSchoolName = HTMLschoolName.replace('%data%',education.schools.name
 var formattedSchoolDegree = HTMLschoolDegree.replace('%data%',education.schools.degree);
 var formattedSchoolDates = HTMLschoolDates.replace('%data%',education.schools.dates);
 var formattedSchoolLocation = HTMLschoolLocation.replace('%data%',education.schools.location);
-var formattedSchoolMajor = HTMLschoolMajor.replace('%data%',education.schools.majors);
+var formattedSchoolMajor = HTMLschoolMajor.replace('%data%',education.schools.major);
 
 var formattedOnlineTitle = HTMLonlineTitle.replace('%data%',education.onlineCourses.title);
 var formattedOnlineSchool = HTMLonlineSchool.replace('%data%',education.onlineCourses.school);
@@ -135,27 +133,64 @@ bio.display = function() {
 };
 bio.display();
 /**
- * @description 设置一个循环函数，遍历对象内容并显示
- * @param id - 定位要添加的位置
+ * @description 设置一个循环函数，遍历对象内容并添加到html
+ * @param id - 定位要添加的位置（父元素）
  * @param start - 添加第一个start div
  * @param obj - 要遍历的对象
  * @param sunobj - 该对象的子对象
  * @param HTMLname - 对应的helper.js内的变量名片段
- * @param location - 对应的需要插入的HTML的class名
+ * @param location - 对应的需要插入的HTML的位置（子元素）
  */
+
+// var objloop = function(id, start, obj, sunobj, HTMLname, location) {
+//     var location = location + ':last';//选择最后一个div，用于添加html内容
+//     for(var i = 0; obj[sunobj][i]; i++) {
+//         $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
+//         for(var index in obj[sunobj][i]) {
+//             var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
+//             var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
+//             var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][index]);//替换
+//             $(location).append(formattedItem);//找到最后一个div，添加替换的内容
+//         };
+//     };
+// };
 
 var objloop = function(id, start, obj, sunobj, HTMLname, location) {
     var location = location + ':last';//选择最后一个div，用于添加html内容
     for(var i = 0; obj[sunobj][i]; i++) {
         $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
         for(var index in obj[sunobj][i]) {
-            var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
-            var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
-            var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][index]);//替换
-            $(location).append(formattedItem);//找到最后一个div，添加替换的内容
+            if(index === 'name'|| index === 'degree') {
+                var name, degree;
+                var formattedName, formattedDegree;
+                if(index==='name') {
+                    name = index;
+                    formattedName = replaceData();
+                }else {
+                    degree = index;
+                    formattedDegree = replaceData();
+                };
+                if(formattedDegree) {
+                    var formattedCap = formattedName + formattedDegree;
+                    $(location).append(formattedCap);
+                    name = undefined;
+                    degree = undefined;
+                    formattedName = undefined;
+                    formattedDegree = undefined;
+                };
+            }else {
+                $(location).append(replaceData());//找到最后一个div，添加替换的内容
+            }
+            function replaceData() {
+                var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
+                var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
+                var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][index]);//替换
+                return formattedItem;
+            }
         };
     };
 };
+
 
 /**
  * @description Add Work Experience
@@ -172,6 +207,11 @@ objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.
  */
 
 
+
+
+objloop('#education', 'HTMLschoolStart', education, 'schools', 'HTMLschool', '.education-entry');
+
+objloop('#education', 'HTMLschoolStart', education, 'onlineCourses', 'HTMLonline', '.education-entry');
 
 /**
  * @description Add mapDiv
