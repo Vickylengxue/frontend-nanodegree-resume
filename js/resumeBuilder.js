@@ -168,7 +168,7 @@ var objloop = function (id, start, obj, sonobj, HTMLname, location) {
                 }
                 //把name 和 degree拼接到一起
                 var formattedCap = formattedName + formattedDegree;
-                if(formattedDegree) {
+                if (formattedDegree) {
                     $(location).append(formattedCap);
                     formattedName = undefined;
                     formattedDegree = undefined;
@@ -238,4 +238,4 @@ function inName(name) {
         countNum = 0;
         return name;
     }
-};
+}
