@@ -31,6 +31,7 @@ var education = {
             "location": "Shanghai",
             "degree": "Bachelor's degree",
             "major": ["Matieral Science and Technology"],
+            "url": "http://www.shu.edu.cn/",
             "dates": "2012-6"
         }
     ],
@@ -39,7 +40,7 @@ var education = {
             "title": "Udacity Front-End Web Developer Nanodegree",
             "school": "Udacity Online School",
             "dates": "2016-12",
-            "uRL": "http://cn.udacity.com/"
+            "url": "http://cn.udacity.com/"
         }
     ],
 };
@@ -50,6 +51,7 @@ var work = {
             "title": "Department Assistant",
             "location": "Shanghai Zhangjiang",
             "dates": "2015 - Current",
+            "url": "www.cleartv.net",
             "description": "2015-2016.6 Worked as assistant of Research and development Department. <br> 2016.6 - current Do some work related to front-end develop."
         },
         {
@@ -57,6 +59,7 @@ var work = {
             "title": "Assistant to CEO",
             "location": "Shanghai Pudong",
             "dates": "2013 - 2015",
+            "url": "http://www.ehsy.com/",
             "description": "Worked as assistant to the CEO. Provides comprehensive support services to the CEO that ensures a professional, responsive and effective experience with the organization as a whole."
         },
         {
@@ -73,13 +76,15 @@ var projects = {
             "title": "the company website of ClearTV",
             "dates": "2016-11",
             "description": "It is a company website, showing products to the customer overseas. It is built with a CSS format called matirlize.",
-            "image": ["images/project1-companyWebsite.jpg"]
+            "image": ["images/project1-companyWebsite.jpg"],
+            "url": "https://snowlengxue.github.io/website-Clearoversea/"
         },
         {
             "title": "Resume",
             "dates": "2017-01",
             "description": "It is a website resume. Its format is refer to the tamplate at Wix.com. Built with Bootstrap, jQuery. ",
-            "image": ["images/project2-resume.jpg"]
+            "image": ["images/project2-resume.jpg"],
+            "url": "https://snowlengxue.github.io/"
         }
     ]
 }
@@ -160,6 +165,7 @@ var objloop = function(id, start, obj, sunobj, HTMLname, location) {
     for(var i = 0; obj[sunobj][i]; i++) {
         $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
         for(var index in obj[sunobj][i]) {
+            //处理education 对象内的name与degree的拼接
             if(index === 'name'|| index === 'degree') {
                 var name, degree;
                 var formattedName, formattedDegree;
@@ -170,6 +176,7 @@ var objloop = function(id, start, obj, sunobj, HTMLname, location) {
                     degree = index;
                     formattedDegree = replaceData();
                 };
+                //把name 和 degree拼接到一起
                 if(formattedDegree) {
                     var formattedCap = formattedName + formattedDegree;
                     $(location).append(formattedCap);
@@ -178,8 +185,12 @@ var objloop = function(id, start, obj, sunobj, HTMLname, location) {
                     formattedName = undefined;
                     formattedDegree = undefined;
                 };
-            }else {
-                $(location).append(replaceData());//找到最后一个div，添加替换的内容
+            }else if(index === 'url') {
+                //遇到url,就把url的内容添加到a标签中
+                $(location + '> a').attr('href',obj[sunobj][i][index]);
+
+            }else {//其他内容正常添加
+                $(location).append(replaceData());
             }
             function replaceData() {
                 var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
@@ -201,7 +212,7 @@ objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-ent
  * @description Add Projects
  */
 objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
-
+$('.project-entry > img').css('width','100%');
 /**
  * @description Add Education
  */
@@ -210,7 +221,6 @@ objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.
 
 
 objloop('#education', 'HTMLschoolStart', education, 'schools', 'HTMLschool', '.education-entry');
-
 objloop('#education', 'HTMLschoolStart', education, 'onlineCourses', 'HTMLonline', '.education-entry');
 
 /**
