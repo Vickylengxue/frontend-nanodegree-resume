@@ -200,18 +200,29 @@ function replaceData(key, name, text) {
 /**
  * @description Add Work Experience
  */
-// objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
+
+work.display = function() {
+    objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
+};
+
+work.display();
 
 /**
  * @description Add Projects
  */
-// objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
-// $('.project-entry > img').css('width', '100%');
+projects.display = function() {
+    objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
+    $('.project-entry > img').css('width', '100%');
+};
+projects.display();
 /**
  * @description Add Education
  */
-objloop('#education', 'HTMLschoolStart', education, 'schools', 'HTMLschool', '.education-entry');
-objloop('#education', 'HTMLschoolStart', education, 'onlineCourses', 'HTMLonline', '.education-entry');
+education.display = function() {
+    objloop('#education', 'HTMLschoolStart', education, 'schools', 'HTMLschool', '.education-entry');
+    objloop('#education', 'HTMLschoolStart', education, 'onlineCourses', 'HTMLonline', '.education-entry');
+};
+education.display();
 
 /**
  * @description Add mapDiv
