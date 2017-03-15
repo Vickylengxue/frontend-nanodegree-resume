@@ -135,10 +135,15 @@ bio.display = function() {
         var formattedSkills = HTMLskills.replace('%data%',bio.skills[i]);
         $('#skills').append(formattedSkills);
     }
+    $('#skills').css('flex-direction', 'row');
+    $('#skills > .flex-item').css('flex-grow', '1');
 };
 bio.display();
+
 /**
  * @description 设置一个循环函数，遍历对象内容并添加到html
+ *
+ *
  * @param id - 定位要添加的位置（父元素）
  * @param start - 添加第一个start div
  * @param obj - 要遍历的对象
@@ -147,33 +152,25 @@ bio.display();
  * @param location - 对应的需要插入的HTML的位置（子元素）
  */
 
-// var objloop = function(id, start, obj, sunobj, HTMLname, location) {
-//     var location = location + ':last';//选择最后一个div，用于添加html内容
-//     for(var i = 0; obj[sunobj][i]; i++) {
-//         $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
-//         for(var index in obj[sunobj][i]) {
-//             var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
-//             var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
-//             var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][index]);//替换
-//             $(location).append(formattedItem);//找到最后一个div，添加替换的内容
-//         };
-//     };
-// };
-
 var objloop = function(id, start, obj, sunobj, HTMLname, location) {
     var location = location + ':last';//选择最后一个div，用于添加html内容
+    //开始遍历对象
     for(var i = 0; obj[sunobj][i]; i++) {
         $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
-        for(var index in obj[sunobj][i]) {
+
+        var keys = Object.getOwnPropertyNames(obj[sunobj][i]);
+
+        for(var j = 0; j < keys.length; j++) {
+            var x = keys[j];
             //处理education 对象内的name与degree的拼接
-            if(index === 'name'|| index === 'degree') {
+            if(x === 'name'|| x === 'degree') {
                 var name, degree;
                 var formattedName, formattedDegree;
-                if(index==='name') {
-                    name = index;
+                if(x ==='name') {
+                    name = x;
                     formattedName = replaceData();
                 }else {
-                    degree = index;
+                    degree = x;
                     formattedDegree = replaceData();
                 };
                 //把name 和 degree拼接到一起
@@ -185,19 +182,18 @@ var objloop = function(id, start, obj, sunobj, HTMLname, location) {
                     formattedName = undefined;
                     formattedDegree = undefined;
                 };
-            }else if(index === 'url') {
+            }else if(x === 'url') {
                 //遇到url,就把url的内容添加到a标签中
-                $(location + '> a').attr('href',obj[sunobj][i][index]);
-
+                $(location + '> a').attr('href',obj[sunobj][i][x]);
             }else {//其他内容正常添加
                 $(location).append(replaceData());
-            }
+            };
             function replaceData() {
-                var index2 = index.slice(0,1).toUpperCase() + index.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
+                var index2 = x.slice(0,1).toUpperCase() + x.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
                 var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
-                var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][index]);//替换
+                var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][x]);//替换
                 return formattedItem;
-            }
+            };
         };
     };
 };
@@ -216,16 +212,32 @@ $('.project-entry > img').css('width','100%');
 /**
  * @description Add Education
  */
-
-
-
-
 objloop('#education', 'HTMLschoolStart', education, 'schools', 'HTMLschool', '.education-entry');
 objloop('#education', 'HTMLschoolStart', education, 'onlineCourses', 'HTMLonline', '.education-entry');
 
 /**
  * @description Add mapDiv
  */
+$("#mapDiv").append(googleMap);
 
+/**
+ * @description international name switch
+ */
 
-
+$("#main").append(internationalizeButton);
+var countNum = 0;
+function inName(name) {
+    name = name.split(' ');
+    name[0] = name[0].slice(0,1).toUpperCase() + name[0].slice(1).toLowerCase();
+    if(countNum === 0) {
+        name[1] = name[1].toUpperCase();
+        name = name.join(' ');
+        countNum = 1;
+        return name;
+    }else {
+        name[1] = name[1].slice(0,1).toUpperCase() + name[1].slice(1).toLowerCase();
+        name = name.join(' ');
+        countNum = 0;
+        return name;
+    }
+};
