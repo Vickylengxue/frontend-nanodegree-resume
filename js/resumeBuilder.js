@@ -42,7 +42,7 @@ var education = {
             "dates": "2016-12",
             "url": "http://cn.udacity.com/"
         }
-    ],
+    ]
 };
 var work = {
     "jobs": [
@@ -147,37 +147,37 @@ bio.display();
  */
 
 var objloop = function (id, start, obj, sonobj, HTMLname, location) {
-    var location = location + ':last';//选择最后一个div，用于添加html内容
-    //开始遍历对象
+    var location = location + ':last';
+
     for (var i = 0; obj[sonobj][i]; i++) {
-        $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
+        $(id).append(eval(start));
 
         var keys = Object.getOwnPropertyNames(obj[sonobj][i]);
         for (var j = 0; j < keys.length; j++) {
             var x = keys[j];
             var htmlText = obj[sonobj][i][x];
-            //处理education 对象内的name与degree的拼接
-            if (x === 'name' || x === 'degree') {
-                var formattedName, formattedDegree;
-                if (x === 'name') {
-                    var name = x;
-                    formattedName = replaceData(x, HTMLname, htmlText);
-                } else {
-                    var degree = x;
-                    formattedDegree = replaceData(x, HTMLname, htmlText);
-                }
-                //把name 和 degree拼接到一起
-                var formattedCap = formattedName + formattedDegree;
-                if (formattedDegree) {
-                    $(location).append(formattedCap);
-                    formattedName = undefined;
-                    formattedDegree = undefined;
-                }
-            } else if (x === 'url') {
-                //遇到url,就把url的内容添加到a标签中
-                $(location + '> a').attr('href', obj[sonobj][i][x]);
-            } else {//其他内容正常添加
-                $(location).append(replaceData(x, HTMLname, htmlText));
+            switch (x) {
+                case 'name' || 'degree' :
+                    var formattedName, formattedDegree;
+                    if (x === 'name') {
+                        var name = x;
+                        formattedName = replaceData(x, HTMLname, htmlText);
+                    } else {
+                        var degree = x;
+                        formattedDegree = replaceData(x, HTMLname, htmlText);
+                    }
+                    var formattedCap = formattedName + formattedDegree;
+                    if (formattedDegree) {
+                        $(location).append(formattedCap);
+                        formattedName = undefined;
+                        formattedDegree = undefined;
+                    }
+                    break;
+                case 'url' :
+                    $(location + '> a').attr('href', obj[sonobj][i][x]);
+                    break;
+                default :
+                    $(location).append(replaceData(x, HTMLname, htmlText));
             }
         }
     }
@@ -201,7 +201,7 @@ function replaceData(key, name, text) {
  * @description Add Work Experience
  */
 
-work.display = function() {
+work.display = function () {
     objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
 };
 
@@ -210,7 +210,7 @@ work.display();
 /**
  * @description Add Projects
  */
-projects.display = function() {
+projects.display = function () {
     objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
     $('.project-entry > img').css('width', '100%');
 };
@@ -218,7 +218,7 @@ projects.display();
 /**
  * @description Add Education
  */
-education.display = function() {
+education.display = function () {
     objloop('#education', 'HTMLschoolStart', education, 'schools', 'HTMLschool', '.education-entry');
     objloop('#education', 'HTMLschoolStart', education, 'onlineCourses', 'HTMLonline', '.education-entry');
 };
