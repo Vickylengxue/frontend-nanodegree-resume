@@ -1,21 +1,21 @@
 /*
-This is empty on purpose! Your code to build the resume will go here.
+ This is empty on purpose! Your code to build the resume will go here.
  */
 
 var bio = {
-    "name":"Vicky Leng",
-    "role":"Web Developer",
+    "name": "Vicky Leng",
+    "role": "Web Developer",
     "contacts": {
-        "mobile":"17602189765",
-        "email":"vicky_lengxue@sina.com",
-        "github":"https://github.com/Vickylengxue",
-        "twitter":"I have no twitter",
-        "location":"Shanghai Pudong",
+        "mobile": "17602189765",
+        "email": "vicky_lengxue@sina.com",
+        "github": "https://github.com/Vickylengxue",
+        "twitter": "sorry, I have no twitter",
+        "location": "Shanghai Pudong",
         "blog": "To be continue"
     },
-    "welcomMessage":"Hello, welcome to know about me.",
+    "welcomMessage": "Hello, welcome to know about me.",
     "skills": ["awesomeness", "programming", "JS", "Bootstrap", "jQuery", "HTML&CSS"],
-    "biopic":"images/fry.jpg",
+    "biopic": "images/fry.jpg",
 };
 var education = {
     "schools": [
@@ -93,46 +93,40 @@ var projects = {
  *  声明变量
  */
 
-$("#main").contents().filter(function(){return this.nodeType === 3;}).remove();
+$("#main").contents().filter(function () {
+    return this.nodeType === 3;
+}).remove();
 
-var formattedName = HTMLheaderName.replace('%data%',bio.name);
-var formattedRole = HTMLheaderRole.replace('%data%',bio.role);
-var formattedBioPic = HTMLbioPic.replace('%data%',bio.biopic);
-var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%',bio.welcomMessage);
-
-var formattedSchoolName = HTMLschoolName.replace('%data%',education.schools.name);
-var formattedSchoolDegree = HTMLschoolDegree.replace('%data%',education.schools.degree);
-var formattedSchoolDates = HTMLschoolDates.replace('%data%',education.schools.dates);
-var formattedSchoolLocation = HTMLschoolLocation.replace('%data%',education.schools.location);
-var formattedSchoolMajor = HTMLschoolMajor.replace('%data%',education.schools.major);
-
-var formattedOnlineTitle = HTMLonlineTitle.replace('%data%',education.onlineCourses.title);
-var formattedOnlineSchool = HTMLonlineSchool.replace('%data%',education.onlineCourses.school);
-var formattedOnlineDates = HTMLonlineDates.replace('%data%',education.onlineCourses.dates);
-var formattedOnlineURL = HTMLonlineURL.replace('%data%',education.onlineCourses.url);
+var formattedName = HTMLheaderName.replace('%data%', bio.name);
+var formattedRole = HTMLheaderRole.replace('%data%', bio.role);
+var formattedBioPic = HTMLbioPic.replace('%data%', bio.biopic);
+var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomMessage);
 
 /**
  * @description Add header
  */
 
-bio.display = function() {
+bio.display = function () {
     $('#header').prepend(formattedRole);
     $('#header').prepend(formattedName);
     /**
      * @param i - i == the name of contacts' property, i等于contacts对象内的属性名
      * @description Add topContacts
      */
-    for(var i in bio.contacts) {
-        var propertyValue = bio.contacts[i];
-        var formattedHTMLcontactGeneric = HTMLcontactGeneric.replace('%contact%',i);
-        formattedHTMLcontactGeneric = formattedHTMLcontactGeneric.replace('%data%',propertyValue);
+    var keys = Object.getOwnPropertyNames(bio.contacts);
+    for (var i = 0; i < keys.length; i++) {
+        var propertyName = keys[i];
+        var propertyValue = bio.contacts[propertyName];
+        var formattedHTMLcontactGeneric = HTMLcontactGeneric.replace('%contact%', propertyName);
+        formattedHTMLcontactGeneric = formattedHTMLcontactGeneric.replace('%data%', propertyValue);
         $('#topContacts').append(formattedHTMLcontactGeneric);
-    };
+    }
     $('#header').append(formattedBioPic);
     $('#header').append(formattedWelcomeMsg);
     $('#header').append(HTMLskillsStart);
-    for(var i=0; bio.skills[i]; i++) {
-        var formattedSkills = HTMLskills.replace('%data%',bio.skills[i]);
+
+    for (var i = 0; bio.skills[i]; i++) {
+        var formattedSkills = HTMLskills.replace('%data%', bio.skills[i]);
         $('#skills').append(formattedSkills);
     }
     $('#skills').css('flex-direction', 'row');
@@ -141,74 +135,78 @@ bio.display = function() {
 bio.display();
 
 /**
- * @description 设置一个循环函数，遍历对象内容并添加到html
+ * @description 遍历对象内容并添加到html. Traversal function, replace the %data% with the value
  *
  *
- * @param id - 定位要添加的位置（父元素）
- * @param start - 添加第一个start div
- * @param obj - 要遍历的对象
- * @param sunobj - 该对象的子对象
- * @param HTMLname - 对应的helper.js内的变量名片段
- * @param location - 对应的需要插入的HTML的位置（子元素）
+ * @param id - 定位要添加的位置（父元素）, the father element's id in html page
+ * @param start - 添加第一个start div  Add the first start div
+ * @param obj - 要遍历的对象, the object
+ * @param sonobj - 该对象的子对象, the object in the father object
+ * @param HTMLname - 对应的helper.js内的变量名片段,part of the variable's name in helper.js
+ * @param location - 对应的需要插入的HTML的位置（子元素）the location to input html text
  */
 
-var objloop = function(id, start, obj, sunobj, HTMLname, location) {
+var objloop = function (id, start, obj, sonobj, HTMLname, location) {
     var location = location + ':last';//选择最后一个div，用于添加html内容
     //开始遍历对象
-    for(var i = 0; obj[sunobj][i]; i++) {
+    for (var i = 0; obj[sonobj][i]; i++) {
         $(id).append(eval(start));//添加含有start的div,例如：HTMLworkStart
 
-        var keys = Object.getOwnPropertyNames(obj[sunobj][i]);
-
-        for(var j = 0; j < keys.length; j++) {
+        var keys = Object.getOwnPropertyNames(obj[sonobj][i]);
+        for (var j = 0; j < keys.length; j++) {
             var x = keys[j];
+            var htmlText = obj[sonobj][i][x];
             //处理education 对象内的name与degree的拼接
-            if(x === 'name'|| x === 'degree') {
-                var name, degree;
+            if (x === 'name' || x === 'degree') {
                 var formattedName, formattedDegree;
-                if(x ==='name') {
-                    name = x;
-                    formattedName = replaceData();
-                }else {
-                    degree = x;
-                    formattedDegree = replaceData();
-                };
+                if (x === 'name') {
+                    var name = x;
+                    formattedName = replaceData(x, HTMLname, htmlText);
+                } else {
+                    var degree = x;
+                    formattedDegree = replaceData(x, HTMLname, htmlText);
+                }
                 //把name 和 degree拼接到一起
+                var formattedCap = formattedName + formattedDegree;
                 if(formattedDegree) {
-                    var formattedCap = formattedName + formattedDegree;
                     $(location).append(formattedCap);
-                    name = undefined;
-                    degree = undefined;
                     formattedName = undefined;
                     formattedDegree = undefined;
-                };
-            }else if(x === 'url') {
+                }
+            } else if (x === 'url') {
                 //遇到url,就把url的内容添加到a标签中
-                $(location + '> a').attr('href',obj[sunobj][i][x]);
-            }else {//其他内容正常添加
-                $(location).append(replaceData());
-            };
-            function replaceData() {
-                var index2 = x.slice(0,1).toUpperCase() + x.slice(1);//拼接字符串，首字母大写，此字符串作为后面的变量
-                var HTMLtitle = eval(HTMLname + index2);//将拼接好的字符串，转换成变量，该变量与helper.js内变量名一一对应
-                var formattedItem = HTMLtitle.replace('%data%',obj[sunobj][i][x]);//替换
-                return formattedItem;
-            };
-        };
-    };
+                $(location + '> a').attr('href', obj[sonobj][i][x]);
+            } else {//其他内容正常添加
+                $(location).append(replaceData(x, HTMLname, htmlText));
+            }
+        }
+    }
 };
 
+/**
+ * @description 将data替换成对象内的内容 replace the %data%
+ * @param key - 对象的属性 the property in the object
+ * @param name - HTMLname的值，即：对应的helper.js内的变量名片段 part of the variable's name in helper.js
+ * @param text - 对象内属性的值 the value of the property
+ * @returns {XML|void|string} - 返回一个HTML字符串 return a string which is the html content
+ */
+function replaceData(key, name, text) {
+    var lastName = key.slice(0, 1).toUpperCase() + key.slice(1);
+    var HTMLtitle = eval(name + lastName);
+    var formattedItem = HTMLtitle.replace('%data%', text);
+    return formattedItem;
+}
 
 /**
  * @description Add Work Experience
  */
-objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
+// objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
 
 /**
  * @description Add Projects
  */
-objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
-$('.project-entry > img').css('width','100%');
+// objloop('#projects', 'HTMLprojectStart', projects, 'projects', 'HTMLproject', '.project-entry');
+// $('.project-entry > img').css('width', '100%');
 /**
  * @description Add Education
  */
@@ -228,14 +226,14 @@ $("#main").append(internationalizeButton);
 var countNum = 0;
 function inName(name) {
     name = name.split(' ');
-    name[0] = name[0].slice(0,1).toUpperCase() + name[0].slice(1).toLowerCase();
-    if(countNum === 0) {
+    name[0] = name[0].slice(0, 1).toUpperCase() + name[0].slice(1).toLowerCase();
+    if (countNum === 0) {
         name[1] = name[1].toUpperCase();
         name = name.join(' ');
         countNum = 1;
         return name;
-    }else {
-        name[1] = name[1].slice(0,1).toUpperCase() + name[1].slice(1).toLowerCase();
+    } else {
+        name[1] = name[1].slice(0, 1).toUpperCase() + name[1].slice(1).toLowerCase();
         name = name.join(' ');
         countNum = 0;
         return name;
