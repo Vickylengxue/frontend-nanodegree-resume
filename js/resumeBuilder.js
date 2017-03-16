@@ -89,10 +89,6 @@ var projects = {
     ]
 }
 
-/**
- *  声明变量
- */
-
 $("#main").contents().filter(function () {
     return this.nodeType === 3;
 }).remove();
@@ -136,8 +132,6 @@ bio.display();
 
 /**
  * @description 遍历对象内容并添加到html. Traversal function, replace the %data% with the value
- *
- *
  * @param id - 定位要添加的位置（父元素）, the father element's id in html page
  * @param start - 添加第一个start div  Add the first start div
  * @param obj - 要遍历的对象, the object
@@ -159,13 +153,7 @@ var objloop = function (id, start, obj, sonobj, HTMLname, location) {
             switch (x) {
                 case 'name' || 'degree' :
                     var formattedName, formattedDegree;
-                    if (x === 'name') {
-                        var name = x;
-                        formattedName = replaceData(x, HTMLname, htmlText);
-                    } else {
-                        var degree = x;
-                        formattedDegree = replaceData(x, HTMLname, htmlText);
-                    }
+                    (x === 'name') ? formattedName = replaceData(x, HTMLname, htmlText) : formattedDegree = replaceData(x, HTMLname, htmlText);
                     var formattedCap = formattedName + formattedDegree;
                     if (formattedDegree) {
                         $(location).append(formattedCap);
@@ -200,11 +188,9 @@ function replaceData(key, name, text) {
 /**
  * @description Add Work Experience
  */
-
 work.display = function () {
     objloop('#workExperience', 'HTMLworkStart', work, 'jobs', 'HTMLwork', '.work-entry');
 };
-
 work.display();
 
 /**
@@ -215,6 +201,7 @@ projects.display = function () {
     $('.project-entry > img').css('width', '100%');
 };
 projects.display();
+
 /**
  * @description Add Education
  */
@@ -232,7 +219,6 @@ $("#mapDiv").append(googleMap);
 /**
  * @description international name switch
  */
-
 $("#main").append(internationalizeButton);
 var countNum = 0;
 function inName(name) {
