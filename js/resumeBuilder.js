@@ -79,18 +79,18 @@ var projects = {
             title: "the company website of ClearTV",
             dates: "2016-11",
             description: "It is a company website, showing products to the customer overseas. It is built with a CSS format called matirlize.",
-            image: ["images/project1-companyWebsite.jpg"],
+            images: ["images/project1-companyWebsite.jpg"],
             url: "https://snowlengxue.github.io/website-Clearoversea/"
         },
         {
             title: "Resume",
             dates: "2017-01",
             description: "It is a website resume. Its format is refer to the tamplate at Wix.com. Built with Bootstrap, jQuery. ",
-            image: ["images/project2-resume.jpg"],
+            images: ["images/project2-resume.jpg"],
             url: "https://snowlengxue.github.io/"
         }
     ]
-}
+};
 
 $("#main").contents().filter(function () {
     return this.nodeType === 3;
@@ -108,26 +108,24 @@ var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
 bio.display = function () {
     $('#header').prepend(formattedRole);
     $('#header').prepend(formattedName);
-    /**
-     * @param i - i == the name of contacts' property, i等于contacts对象内的属性名
-     * @description Add topContacts
-     */
+
     var keys = Object.getOwnPropertyNames(bio.contacts);
-    for (var i = 0; i < keys.length; i++) {
-        var propertyName = keys[i];
+    keys.forEach(function (propertyName) {
         var propertyValue = bio.contacts[propertyName];
         var formattedHTMLcontactGeneric = HTMLcontactGeneric.replace('%contact%', propertyName);
         formattedHTMLcontactGeneric = formattedHTMLcontactGeneric.replace('%data%', propertyValue);
         $('#topContacts').append(formattedHTMLcontactGeneric);
-    }
+    });
+
     $('#header').append(formattedBioPic);
     $('#header').append(formattedWelcomeMsg);
     $('#header').append(HTMLskillsStart);
 
-    for (var i = 0; bio.skills[i]; i++) {
-        var formattedSkills = HTMLskills.replace('%data%', bio.skills[i]);
+    bio.skills.forEach(function (skill) {
+        var formattedSkills = HTMLskills.replace('%data%', skill);
         $('#skills').append(formattedSkills);
-    }
+    });
+
     $('#skills').css('flex-direction', 'row');
     $('#skills > .flex-item').css('flex-grow', '1');
 };
@@ -145,34 +143,40 @@ bio.display();
 
 var objloop = function (id, start, obj, sonobj, HTMLname, location) {
     var location = location + ':last';
-
-    for (var i = 0; obj[sonobj][i]; i++) {
+    var formatted1, formatted2;
+    obj[sonobj].forEach(function (item) {
         $(id).append(eval(start));
-
-        var keys = Object.getOwnPropertyNames(obj[sonobj][i]);
-        for (var j = 0; j < keys.length; j++) {
-            var x = keys[j];
-            var htmlText = obj[sonobj][i][x];
+        var keys = Object.getOwnPropertyNames(item);
+        keys.forEach(function(x) {
+            var htmlText = item[x];
             switch (x) {
-                case 'degree':
-                case 'name':
-                    var formattedName, formattedDegree;
-                    (x === 'name') ? formattedName = replaceData(x, HTMLname, htmlText) : formattedDegree = replaceData(x, HTMLname, htmlText);
-                    var formattedCap = formattedName + formattedDegree;
-                    if (formattedDegree) {
-                        $(location).append(formattedCap);
-                        formattedName = undefined;
-                        formattedDegree = undefined;
-                    }
-                    continue;
                 case 'url' :
-                    $(location + '> a').attr('href', obj[sonobj][i][x]);
-                    continue;
+                    $(location + '> a').attr('href', item[x]);
+                    break;
+                case 'majors':
+                case 'images':
+                    x = x.slice(0,-1);
+                    $(location).append(replaceData(x, HTMLname, htmlText));
+                    break;
+                case 'employer':
+                case 'title':
+                case 'name':
+                case 'degree':
+                    if(!(sonobj === 'projects') && !(sonobj === 'onlineCourses')) {
+                        (x==='name' || x==='employer') ? formatted1 = replaceData(x, HTMLname, htmlText) : formatted2 = replaceData(x, HTMLname, htmlText);
+                        if (formatted2) {
+                            var formattedCap = formatted1 + formatted2;
+                            $(location).append(formattedCap);
+                            formatted1 = undefined;
+                            formatted2 = undefined;
+                        }
+                        break;
+                    }
                 default :
                     $(location).append(replaceData(x, HTMLname, htmlText));
             }
-        }
-    }
+        });
+    });
 };
 
 /**
