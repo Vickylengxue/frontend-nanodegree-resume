@@ -104,7 +104,6 @@ var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
 /**
  * @description Add header
  */
-
 bio.display = function () {
     $('#header').prepend(formattedRole);
     $('#header').prepend(formattedName);
@@ -140,14 +139,13 @@ bio.display();
  * @param HTMLname - 对应的helper.js内的变量名片段,part of the variable's name in helper.js
  * @param location - 对应的需要插入的HTML的位置（子元素）the location to input html text
  */
-
 var objloop = function (id, start, obj, sonobj, HTMLname, location) {
     var location = location + ':last';
     var formatted1, formatted2;
     obj[sonobj].forEach(function (item) {
         $(id).append(eval(start));
         var keys = Object.getOwnPropertyNames(item);
-        keys.forEach(function(x) {
+        keys.forEach(function (x) {
             var htmlText = item[x];
             switch (x) {
                 case 'url' :
@@ -155,15 +153,15 @@ var objloop = function (id, start, obj, sonobj, HTMLname, location) {
                     break;
                 case 'majors':
                 case 'images':
-                    x = x.slice(0,-1);
+                    x = x.slice(0, -1);
                     $(location).append(replaceData(x, HTMLname, htmlText));
                     break;
                 case 'employer':
                 case 'title':
                 case 'name':
                 case 'degree':
-                    if(!(sonobj === 'projects') && !(sonobj === 'onlineCourses')) {
-                        (x==='name' || x==='employer') ? formatted1 = replaceData(x, HTMLname, htmlText) : formatted2 = replaceData(x, HTMLname, htmlText);
+                    if (!(sonobj === 'projects') && !(sonobj === 'onlineCourses')) {
+                        (x === 'name' || x === 'employer') ? formatted1 = replaceData(x, HTMLname, htmlText) : formatted2 = replaceData(x, HTMLname, htmlText);
                         if (formatted2) {
                             var formattedCap = formatted1 + formatted2;
                             $(location).append(formattedCap);
