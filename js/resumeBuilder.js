@@ -2,89 +2,92 @@
  This is empty on purpose! Your code to build the resume will go here.
  */
 
+'use strict';
+
 var bio = {
-    "name": "Vicky Leng",
-    "role": "Web Developer",
-    "contacts": {
-        "mobile": "17602189765",
-        "email": "vicky_lengxue@sina.com",
-        "github": "https://github.com/Vickylengxue",
-        "twitter": "sorry, I have no twitter",
-        "location": "Shanghai Pudong",
-        "blog": "To be continue"
+    name: "Vicky Leng",
+    role: "Web Developer",
+    contacts: {
+        mobile: "17602189765",
+        email: "vicky_lengxue@sina.com",
+        github: "https://github.com/Vickylengxue",
+        twitter: "sorry, I have no twitter",
+        location: "Shanghai Pudong",
+        blog: "To be continue"
     },
-    "welcomMessage": "Hello, welcome to know about me.",
-    "skills": ["awesomeness", "programming", "JS", "Bootstrap", "jQuery", "HTML&CSS"],
-    "biopic": "images/fry.jpg",
+    welcomeMessage: "Hello, welcome to know about me.",
+    skills: ["awesomeness", "programming", "JS", "Bootstrap", "jQuery", "HTML&CSS"],
+    biopic: "images/fry.jpg",
 };
 var education = {
-    "schools": [
+    schools: [
         {
-            "name": "Fu Yu Highschool",
-            "location": "Qiqi Haer",
-            "degree": "hightschool",
-            "major": ["technology and science"],
-            "dates": "2008-6"
+            name: "Fu Yu Highschool",
+            location: "Qiqi Haer",
+            degree: "hightschool",
+            majors: ["technology and science"],
+            url: "http://www.shu.edu.cn/",
+            dates: "2008-6"
         },
         {
-            "name": "Shanghai Univercity",
-            "location": "Shanghai",
-            "degree": "Bachelor's degree",
-            "major": ["Matieral Science and Technology"],
-            "url": "http://www.shu.edu.cn/",
-            "dates": "2012-6"
+            name: "Shanghai Univercity",
+            location: "Shanghai",
+            degree: "Bachelor's degree",
+            majors: ["Matieral Science and Technology"],
+            url: "http://www.shu.edu.cn/",
+            dates: "2012-6"
         }
     ],
-    "onlineCourses": [
+    onlineCourses: [
         {
-            "title": "Udacity Front-End Web Developer Nanodegree",
-            "school": "Udacity Online School",
-            "dates": "2016-12",
-            "url": "http://cn.udacity.com/"
+            title: "Udacity Front-End Web Developer Nanodegree",
+            school: "Udacity Online School",
+            dates: "2016-12",
+            url: "http://cn.udacity.com/"
         }
     ]
 };
 var work = {
-    "jobs": [
+    jobs: [
         {
-            "employer": "Shanghai ClearTV Corp.",
-            "title": "Department Assistant",
-            "location": "Shanghai Zhangjiang",
-            "dates": "2015 - Current",
-            "url": "www.cleartv.net",
-            "description": "2015-2016.6 Worked as assistant of Research and development Department. <br> 2016.6 - current Do some work related to front-end develop."
+            employer: "Shanghai ClearTV Corp.",
+            title: "Department Assistant",
+            location: "Shanghai Zhangjiang",
+            dates: "2015 - Current",
+            url: "www.cleartv.net",
+            description: "2015-2016.6 Worked as assistant of Research and development Department. <br> 2016.6 - current Do some work related to front-end develop."
         },
         {
-            "employer": "Westingarea Mechanical and Electrical Systems co., LTD",
-            "title": "Assistant to CEO",
-            "location": "Shanghai Pudong",
-            "dates": "2013 - 2015",
-            "url": "http://www.ehsy.com/",
-            "description": "Worked as assistant to the CEO. Provides comprehensive support services to the CEO that ensures a professional, responsive and effective experience with the organization as a whole."
+            employer: "Westingarea Mechanical and Electrical Systems co., LTD",
+            title: "Assistant to CEO",
+            location: "Shanghai Pudong",
+            dates: "2013 - 2015",
+            url: "http://www.ehsy.com/",
+            description: "Worked as assistant to the CEO. Provides comprehensive support services to the CEO that ensures a professional, responsive and effective experience with the organization as a whole."
         },
         {
-            "employer": "RuiXi Enterprise Management Consulting co., LTD",
-            "title": "HR Researching",
-            "location": "Shanghai Putuo",
-            "dates": "2012 - 2013",
-            "description": "Worked as HR researching. Coordinating interviews with the hiring managers. Following up on the interview process status. Maintaining relationships with both internal and external clients to ensure staffing goals are achieved."
+            employer: "RuiXi Enterprise Management Consulting co., LTD",
+            title: "HR Researching",
+            location: "Shanghai Putuo",
+            dates: "2012 - 2013",
+            description: "Worked as HR researching. Coordinating interviews with the hiring managers. Following up on the interview process status. Maintaining relationships with both internal and external clients to ensure staffing goals are achieved."
         }]
 };
 var projects = {
-    "projects": [
+    projects: [
         {
-            "title": "the company website of ClearTV",
-            "dates": "2016-11",
-            "description": "It is a company website, showing products to the customer overseas. It is built with a CSS format called matirlize.",
-            "image": ["images/project1-companyWebsite.jpg"],
-            "url": "https://snowlengxue.github.io/website-Clearoversea/"
+            title: "the company website of ClearTV",
+            dates: "2016-11",
+            description: "It is a company website, showing products to the customer overseas. It is built with a CSS format called matirlize.",
+            image: ["images/project1-companyWebsite.jpg"],
+            url: "https://snowlengxue.github.io/website-Clearoversea/"
         },
         {
-            "title": "Resume",
-            "dates": "2017-01",
-            "description": "It is a website resume. Its format is refer to the tamplate at Wix.com. Built with Bootstrap, jQuery. ",
-            "image": ["images/project2-resume.jpg"],
-            "url": "https://snowlengxue.github.io/"
+            title: "Resume",
+            dates: "2017-01",
+            description: "It is a website resume. Its format is refer to the tamplate at Wix.com. Built with Bootstrap, jQuery. ",
+            image: ["images/project2-resume.jpg"],
+            url: "https://snowlengxue.github.io/"
         }
     ]
 }
@@ -96,7 +99,7 @@ $("#main").contents().filter(function () {
 var formattedName = HTMLheaderName.replace('%data%', bio.name);
 var formattedRole = HTMLheaderRole.replace('%data%', bio.role);
 var formattedBioPic = HTMLbioPic.replace('%data%', bio.biopic);
-var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomMessage);
+var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
 
 /**
  * @description Add header
@@ -151,7 +154,8 @@ var objloop = function (id, start, obj, sonobj, HTMLname, location) {
             var x = keys[j];
             var htmlText = obj[sonobj][i][x];
             switch (x) {
-                case 'name' || 'degree' :
+                case 'degree':
+                case 'name':
                     var formattedName, formattedDegree;
                     (x === 'name') ? formattedName = replaceData(x, HTMLname, htmlText) : formattedDegree = replaceData(x, HTMLname, htmlText);
                     var formattedCap = formattedName + formattedDegree;
@@ -160,10 +164,10 @@ var objloop = function (id, start, obj, sonobj, HTMLname, location) {
                         formattedName = undefined;
                         formattedDegree = undefined;
                     }
-                    break;
+                    continue;
                 case 'url' :
                     $(location + '> a').attr('href', obj[sonobj][i][x]);
-                    break;
+                    continue;
                 default :
                     $(location).append(replaceData(x, HTMLname, htmlText));
             }
