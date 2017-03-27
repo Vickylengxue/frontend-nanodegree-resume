@@ -18,7 +18,8 @@ var bio = {
     welcomeMessage: "Hello, welcome to know about me.",
     skills: ["awesomeness", "programming", "JS", "Bootstrap", "jQuery", "HTML&CSS"],
     biopic: "images/fry.jpg",
-};
+}
+
 var education = {
     schools: [
         {
@@ -46,7 +47,8 @@ var education = {
             url: "http://cn.udacity.com/"
         }
     ]
-};
+}
+
 var work = {
     jobs: [
         {
@@ -72,7 +74,8 @@ var work = {
             dates: "2012 - 2013",
             description: "Worked as HR researching. Coordinating interviews with the hiring managers. Following up on the interview process status. Maintaining relationships with both internal and external clients to ensure staffing goals are achieved."
         }]
-};
+}
+
 var projects = {
     projects: [
         {
@@ -90,7 +93,7 @@ var projects = {
             url: "https://snowlengxue.github.io/"
         }
     ]
-};
+}
 
 $("#main").contents().filter(function () {
     return this.nodeType === 3;
@@ -105,8 +108,7 @@ var formattedWelcomeMsg = HTMLwelcomeMsg.replace('%data%', bio.welcomeMessage);
  * @description Add header
  */
 bio.display = function () {
-    $('#header').prepend(formattedRole);
-    $('#header').prepend(formattedName);
+    $('#header').prepend(formattedRole, formattedName);
 
     var keys = Object.getOwnPropertyNames(bio.contacts);
     keys.forEach(function (propertyName) {
@@ -114,11 +116,10 @@ bio.display = function () {
         var formattedHTMLcontactGeneric = HTMLcontactGeneric.replace('%contact%', propertyName);
         formattedHTMLcontactGeneric = formattedHTMLcontactGeneric.replace('%data%', propertyValue);
         $('#topContacts').append(formattedHTMLcontactGeneric);
+        $('#footerContacts').append(formattedHTMLcontactGeneric);
     });
 
-    $('#header').append(formattedBioPic);
-    $('#header').append(formattedWelcomeMsg);
-    $('#header').append(HTMLskillsStart);
+    $('#header').append(formattedBioPic, formattedWelcomeMsg, HTMLskillsStart);
 
     bio.skills.forEach(function (skill) {
         var formattedSkills = HTMLskills.replace('%data%', skill);
